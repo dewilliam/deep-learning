@@ -1,3 +1,22 @@
 今天安装了Google搞得Tensorflow，很牛的一个深度学习框架，0.11.0版本。
 Tensorflow不支持Windows系统，只能在linux或者Mac上使用。
 我用的是ubuntn 14.04。参照的是<a href="https://www.tensorflow.org/versions/r0.11/get_started/os_setup.html">观望</a>上的安装教程，在这记录一下。
+首先要个安装一个PIP和虚拟环境（Virtualenv）。
+sudo apt-get install python-pip python-dev python-virtualenv
+在虚拟环境里面建一个目录。
+virtualenv --system-site-packages ~/tensorflow
+激活这个虚拟环境（当使用tensorflow时也要激活后才能用...）
+source ~/tensorflow/bin/activate
+然后下载安装tensorflow(我用的是CPU版本，python2.7)
+(tensorflow)$ export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp27-none-linux_x86_64.whl
+(tensorflow)$ pip install --upgrade $TF_BINARY_URL
+
+可以安装一个Anaconda，一个python用于数据计算的...
+去<a href="https://www.continuum.io/downloads">官网</a>下载sh脚本  Anaconda2-4.2.0-Linux-x86_64.sh
+之后执行这个脚本就好。
+安装之后，要把环境变量在设置好：
+vi /etc/profile
+在profile里加入一行：expert PATH=/home/william/anaconda2/bin:$PATH
+这样每次开机的时候就不需配置 使用虚拟环境了...
+
+安装过程就搞定了，下面就要看看tensorflow的文档，开始搞了。。。
