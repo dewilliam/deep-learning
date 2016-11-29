@@ -3,3 +3,5 @@ CNN的主要应用（我所知道的...）有图像识别、语音识别、文�
 MNIST数据集是手写字的数据，图像识别里最简单的数据。可以去官网下载 http://yann.lecun.com/exdb/mnist/
 但是下载下来的数据是二进制格式，要进行解析才能得到图片像素信息
 计划用tensorflow来写代码，参考google的一篇文章来识别。
+<img src="http://img.blog.csdn.net/20150812160455753?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center"></img>
+这是mnist数据集的二进制格式。
