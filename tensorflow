@@ -22,6 +22,9 @@ vi /etc/profile
 安装过程就搞定了，下面就要看看tensorflow的文档，开始搞了。。。
 
 
+输入和输出数据要先设置占位符，例如x = tf.placeholder("float", shape=[None, 784])
+None的意思是数据量有多少个不确定。
+
 变量Variable，（tf.Variable）是tensorflow的变量，变量中包含张量。初始化时要传入张量，并指定张量的shape。
 例如weights = tf.Variable(tf.random_normal([784, 200], stddev=0.35),name="weights")
 所有的变量必须在模型运行之前全部初始化。可以用这个方法：init_op = tf.initialize_all_variables()一次性初始化全部变量。
