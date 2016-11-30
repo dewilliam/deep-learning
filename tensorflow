@@ -20,3 +20,18 @@ vi /etc/profile
 这样每次开机的时候就不需配置 使用虚拟环境了...
 
 安装过程就搞定了，下面就要看看tensorflow的文档，开始搞了。。。
+
+
+变量Variable，（tf.Variable）是tensorflow的变量，变量中包含张量。初始化时要传入张量，并指定张量的shape。
+例如weights = tf.Variable(tf.random_normal([784, 200], stddev=0.35),name="weights")
+所有的变量必须在模型运行之前全部初始化。可以用这个方法：init_op = tf.initialize_all_variables()一次性初始化全部变量。
+也可以用其他变量的值来初始化变量w2 = tf.Variable(weights.initialized_value(), name="w2")
+变量的存储和恢复：
+tf.train.Saver()，save_path = saver.save(sess, "/tmp/model.ckpt")；
+saver = tf.train.Saver(),saver.restore(sess, "/tmp/model.ckpt");
+首先用最简单的softmax回归预测了一下MNIST，效果果然不好，只有91%左右的正确率，代码放在了mnist_recognition.py里。
+奇怪的是当权值矩阵初始值设置成随机值时，正确率最高是84%左右，而全部置0时竟然能达到91%？？由此研究了一下softmax函数和它的梯度下降。
+softmax是logistic的多分类的推广，也可以说logistic是softmax的一个特例。
+而softmax有冗余的参数，把权值全部置为0,并不影响梯度的计算。也就说softmax的参数是不唯一的，但是在局部内，如果用交叉熵做成本函数的话，J(theta)
+是一个凸函数，肯定会找到局部最小值的。
+我觉得随机值比全0效果差的原因可能是随机值有的参数跨过了局部区域，整个theta跨越在两个凸区域。。。
