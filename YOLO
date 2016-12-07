@@ -23,7 +23,7 @@ IOU(truth,pred)是边界框区域与已经标注的物体范围的IOU值
 **这里插播几句**
 在运行YOLO之前我先安装了opencv 和CUDA
 安装opencv的时候，去观望下载一个opencv3.0.zip，解压之后，直接make,make install就可以了。
-但是出了个问题，在运行的时候报了一个错，找不到libopencv_highgui.so.3.0，但是我find了一下，在/usr/
-在/etc/ld.local.so.d/中写了一个文件opencv.conf，吧路径写进去了，运行一下sudo ldconf 就可以了，不知道什么原因。。。
+但是出了个问题，在运行的时候报了一个错，找不到libopencv_highgui.so.3.0，但是我find了一下，在/usr/local/lib/里面
+在/etc/ld.so。conf.d/中写了一个文件opencv.conf，吧路径写进去了，运行一下sudo ldconf 就可以了，不知道什么原因。。。
 
 然后按抓给你CUDA，这是NVIDIA的一个运行GPU跑程序的库...
