@@ -27,3 +27,10 @@ IOU(truth,pred)是边界框区域与已经标注的物体范围的IOU值
 在/etc/ld.so。conf.d/中写了一个文件opencv.conf，吧路径写进去了，运行一下sudo ldconf 就可以了，不知道什么原因。。。
 
 然后按抓给你CUDA，这是NVIDIA的一个运行GPU跑程序的库...
+先用 uname -m && cat /etc/*release 查看一下系统情况，我的是x86_64的架构
+去官网(https://developer.nvidia.com/cuda-downloads)下载对应的deb包就可以了，
+`sudo dpkg -i cuda-repo-ubuntu1404-8-0-local_8.0.44-1_amd64.deb`
+`sudo apt-get update`
+`sudo apt-get install cuda`
+以上是官网给的安装命令。。。
+**插播完毕**
