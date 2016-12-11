@@ -39,11 +39,59 @@ YOLO的源代码已经被大神开源，darknet，官网：http://pjreddie.com/d
 但是出了个问题，在运行的时候报了一个错，找不到libopencv_highgui.so.3.0，但是我find了一下，在/usr/local/lib/里面
 在/etc/ld.so。conf.d/中写了一个文件opencv.conf，吧路径写进去了，运行一下sudo ldconf 就可以了，不知道什么原因。。。
 
-然后按抓给你CUDA，这是NVIDIA的一个运行GPU跑程序的库...
+然后安装CUDA，这是NVIDIA的一个运行GPU跑程序的库...
 先用 uname -m && cat /etc/*release 查看一下系统情况，我的是x86_64的架构
 去官网(https://developer.nvidia.com/cuda-downloads)下载对应的deb包就可以了，
 `sudo dpkg -i cuda-repo-ubuntu1404-8-0-local_8.0.44-1_amd64.deb`
 `sudo apt-get update`
 `sudo apt-get install cuda`
 以上是官网给的安装命令。。。
+
+经实际验证，上面的方法不能用...会导致很多问题，我的电脑也崩溃了好多回。。
+要用runfile来安装就会解决问题，去官网下载相应的runfile大概1.4个G。
+安装步骤还挺麻烦，
+1.首先要把ubuntu14.04自带的nvidia显卡的驱动nouveau禁掉，在/etc/modprobe.d/下建一个文件 叫blacklist-nouveau.conf
+里面增加两行：
+blacklist nouveau
+options nouveau modeset=0
+之后重新生成kernel initramfs：sudo update-initramfs -u
+
+2.重启系统，进入1～6任意一个命令行终端
+关闭桌面服务：sudo service lightdm stop
+进入到runfile的下载目录 cd /home/william/study/
+执行runfile文件：sudo bash cuda_8.0.44_linux.run --no-opengl-libs
+
+3.runfile安装选项
+首先会出来一些软件说明，写accept就好了。
+然后会让你选择是否安装NVIDIA加速显卡驱动，一定要选是（Y），否则重新便也darknet的时候会有好多库找不到。
+是否安装cuda 8.0 toolkit，也选是（Y）
+接下来是让你填写toolkit的安装目录，默认是安装在/usr/local/cuda-8.0下，但我是安装在了/home/william/里面，因为根目录没有多少空间了。
+是否在/usr/local下安一个软链接，也选是（Y）
+然后是问你要不要安装cuda的一些实例程序，也选是（Y），写一下安装目录就好。
+这样就开始安装了，也很快。
+
+4.安装之后，重启桌面服务 sudo service lightdm start
+我的电脑有两个显卡，一个是intel的集成显卡，另一个是nvidia的独立显卡，我要把nvidia显卡跑GPU用，而intel显卡当显卡用。
+所以在/etc/X11/下建立一个文件 xorg.conf
+里面写上几行
+Section "Device"
+    Identifier "intel"
+    Driver "intel"
+    BusID "PCI:0@0:2:0"
+    Option "AccelMethod" "SNA"
+EndSection
+为了防止系统修改此文件，要在/etc/default/grub文件里面增加一行
+GRUB_CMDLINE_LINUX_DEFAULT="nogpumanager"
+然后更新grub：sudo update-grub
+
+增加一下环境变量：
+sudo echo 'export PATH=/home/william/study/cuda-8.0/bin:$PATH' >>~/.bashrc
+sudo echo 'export LD_LIBRARY_PATH=/home/william/study/cuda-8.0/lib64:$LD_LIBRARY_PATH' >>~/.bashrc
+然后就可以验证一下是否成功了：nvcc -V
+如果出来cuda的版本，就说明安装完成了。
+
+5.darknet重新编译
+把MakeFile里的gpu改成1
+make一下就好
+经测试，在我本机，运行YOLO，GPU的速度是CPU的七八倍左右，好像也不是很快-_-||...
 **插播完毕**
